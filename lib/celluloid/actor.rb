@@ -149,7 +149,7 @@ module Celluloid
         begin
           @timers.wait do |interval|
             interval = 0 if interval and interval < 0
-            
+
             if message = @mailbox.check(interval)
               handle_message(message)
 
@@ -239,6 +239,11 @@ module Celluloid
     # Schedule a block to run at the given time
     def every(interval, &block)
       @timers.every(interval) { task(:timer, &block) }
+    end
+
+    # Schedule a block to run at the given time
+    def now_and_every(interval, &block)
+      @timers.now_and_every(interval) { task(:timer, &block) }
     end
 
     def timeout(duration)

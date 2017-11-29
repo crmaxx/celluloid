@@ -43,7 +43,7 @@ module Celluloid
       klass.property :exclusive_actor, :default => false
       klass.property :exclusive_methods, :multi => true
       klass.property :execute_block_on_receiver,
-        :default => [:after, :every, :receive],
+        :default => [:after, :every, :now_and_every, :receive],
         :multi   => true
 
       klass.property :finalizer
@@ -428,6 +428,11 @@ module Celluloid
   # Call a block every given interval, returning a Celluloid::Timer object
   def every(interval, &block)
     Thread.current[:celluloid_actor].every(interval, &block)
+  end
+
+  # Call a block now and every given interval, returning a Celluloid::Timer object
+  def now_and_every(interval, &block)
+    Thread.current[:celluloid_actor].now_and_every(interval, &block)
   end
 
   # Perform a blocking or computationally intensive action inside an
